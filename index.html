@@ -6,7 +6,19 @@
     <title>MOODENG</title>
     <style>
         body {
-            height: 2000px;
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margins */
+            overflow: hidden; /* Hide any scrolling */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        
+        #mouseclick-text {
+            font-size: 8rem; /* Adjust the size as needed */
+            font-weight: bold; /* Make the text bold */
+            margin: 0; /* Remove default margin */
+            text-align: center; /* Center text content */
         }
         img {
             position: absolute;
@@ -17,6 +29,8 @@
 </head>
 <body>
     <img id="cursor" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTY-JNNN2iHAzhMg07KvGorRif4725oZnyLQ&s" alt="my cursor">
+    
+    <h1 id="mouseclick-text">mouseclick</h1>
     <script src="script.js"></script>
 </body>
 </html>
