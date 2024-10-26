@@ -1,56 +1,70 @@
-const myCursor = document.getElementById("cursor")
-console.log(myCursor)
+// script.js
+
+// Custom cursor
+const myCursor = document.getElementById("cursor");
+const moodengText = document.getElementById("moodeng-text");
 window.addEventListener("mousemove", function(e) {
-    const x = e.pageX
-    const y = e.pageY
-    myCursor.style.width = '80px'
-    console.log(myCursor.style.width)
-    myCursor.style.transform = `translate(${x - 80/2}px, ${y - 80/2}px)`;
-    console.log(e)
-})
+    const x = e.pageX;
+    const y = e.pageY;
+    myCursor.style.width = '80px';
+    myCursor.style.transform = `translate(${x - 40}px, ${y - 40}px)`; // Center cursor
+});
 
+// Infinite Scroll Setup
+const contentDiv = document.getElementById('content');
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        // When reaching the bottom, load more content
+        addContent();
+    }
+
+    // Change the color of the "MOODENG" text based on scroll position
+    changeMoodengColor();
+});
+
+// Function to add new content (simulating infinite scroll)
+function addContent() {
+    const newDiv = document.createElement('div');
+    newDiv.style.height = '100vh';
+    newDiv.style.backgroundColor = getRandomColor();
+    contentDiv.appendChild(newDiv);
+}
+
+// Utility function to get a random color
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Mouse click handling
 window.addEventListener("click", function(e) {
-    const x = e.clientX
-    const y = e.clientY
-    const img = document.createElement("img")
-    img.src = myCursor.src
-    console.log(img.src)
-    img.style.width = '80px'
-    img.style.transform = `translate(${x - 80/2}px, ${y - 80/2}px)`;
-    document.body.appendChild(img)
-    console.log(img)
-})
+    const x = e.clientX;
+    const y = e.clientY;
+    const img = document.createElement("img");
+    img.src = myCursor.src || ''; // Use the same image as the custom cursor
+    console.log(img.src);
 
-// example
-input.addEventListener("input", (event) => {
-    value.textContent = event.target.value;
-    myCursor.style.width = `${event.target.value * 10}px`
+    // Generate a random size between 20px and 150px
+    const randomSize = Math.floor(Math.random() * 130) + 20;
+    img.style.width = `${randomSize}px`;
     
-    // myText.style.fontSize = `${somevalue}px`
-    // myText.style.color.r
-  });
-  
-// When true, moving the mouse draws on the canvas
-let isDrawing = false;
-let x = 0;
-let y = 0;
-
-const myPics = document.getElementById("myPics");
-const context = myPics.getContext("2d");
-
-// event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
-
-// Add the event listeners for mousedown, mousemove, and mouseup
-myPics.addEventListener("mousedown", (e) => {
-  x = e.offsetX;
-  y = e.offsetY;
-  isDrawing = true;
+    img.style.position = 'absolute'; // Ensure image is positioned absolutely
+    img.style.transform = `translate(${x - randomSize / 2}px, ${y - randomSize / 2}px)`;
+    document.body.appendChild(img);
 });
 
-myPics.addEventListener("mousemove", (e) => {
-  if (isDrawing) {
-    drawLine(context, x, y, e.offsetX, e.offsetY);
-    x = e.offsetX;
-    y = e.offsetY;
-  }
-});
+// Function to change the color of the "MOODENG" text based on scroll
+function changeMoodengColor() {
+    // Calculate the scroll percentage
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+
+    // Generate a color based on the scroll percentage
+    const hue = Math.floor((scrollPercent / 100) * 360); // 0 to 360 for hue
+    moodengText.style.color = `hsl(${hue}, 80%, 50%)`; // Using HSL for smooth color transitions
+}
